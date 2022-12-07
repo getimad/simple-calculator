@@ -5,19 +5,40 @@ usage() {
     exit 1
 }
 
+add() {
+    RESULT=$(($1 + $2))
+    echo $RESULT
+}
+
+sub() {
+    RESULT=$(($1 - $2))
+    echo $RESULT
+}
+
+mul() {
+    RESULT=$(($1 * $2))
+    echo $RESULT
+}
+
+div() {
+    [ "$2" -eq 0 ] && echo "Infinity" && exit 1  # When the denominator equal 0, return Infinity and exit.
+    RESULT=$(($1 / $2))
+    echo $RESULT
+}
+
 main() {
     if [ $# -eq 3 ]; then
         case $2 in
             -a|--add|+)
-                RESULT=$(($1 + $3));;
+                RESULT=$(add "$1" "$3");;
             -s|--sub|-)
-                RESULT=$(($1 - $3));;
+                RESULT=$(sub "$1" "$3");;
             -m|--mul|x)
-                RESULT=$(($1 * $3));;
+                RESULT=$(mul "$1" "$3");;
             -d|--div|/)
-                RESULT=$(($1 / $3));;
+                RESULT=$(div "$1" "$3");;
         esac
-        echo $* = $RESULT
+        echo "$* = $RESULT"
     else
         usage
     fi
